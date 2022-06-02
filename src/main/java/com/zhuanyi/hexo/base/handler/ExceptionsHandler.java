@@ -1,6 +1,6 @@
 package com.zhuanyi.hexo.base.handler;
 
-import com.zhuanyi.hexo.base.entity.Result;
+import com.zhuanyi.hexo.common.dto.Result;
 import com.zhuanyi.hexo.base.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

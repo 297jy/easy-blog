@@ -10,6 +10,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @Component("defaultAuthService")
 public class DefaultAuthServiceImpl implements AuthService {
@@ -44,7 +45,7 @@ public class DefaultAuthServiceImpl implements AuthService {
     @Override
     public boolean isValidToken(String token) {
         TokenBO tokenBO = defaultTokenDao.getToken();
-        if (!token.equals(tokenBO.getToken())) {
+        if (!Objects.equals(token, tokenBO.getToken())) {
             return false;
         }
         return System.currentTimeMillis() < tokenBO.getExpiredTimeStamp();

@@ -4,13 +4,21 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Component("defaultHexoFileManage")
 public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
+
+    private static final Map<String, String> escapeTextMap = new HashMap<>();
+
+    static {
+        escapeTextMap.put("&gt;", ">");
+        escapeTextMap.put("&lt;", "<");
+        escapeTextMap.put("&nbsp;", " ");
+    }
 
     @Override
     public String getArticleAuthor(List<String> hexoContentLines) {
@@ -82,7 +90,7 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
         int index = hexoContentLines.lastIndexOf("---");
         if (index != -1) {
             int startIndex = Math.min(index + 1, hexoContentLines.size());
-            return StringUtils.join(hexoContentLines.subList(startIndex, hexoContentLines.size()), "").trim();
+            return StringUtils.join(hexoContentLines.subList(startIndex, hexoContentLines.size()), "\r\n").trim();
         }
         return "";
     }
@@ -124,7 +132,7 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
 
     @Override
     public List<String> getHexoCover(String cover) {
-        return Collections.singletonList("cover: " + cover);
+        return Arrays.asList("cover: " + cover, "top_img: " + cover);
     }
 
     @Override
@@ -135,6 +143,45 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
     @Override
     public List<String> getHexoContent(String content) {
         return Collections.singletonList(content);
+    }
+
+    @Override
+    protected String getHexoContentEncode(String content) {
+        if (StringUtils.isEmpty(content)) {
+            return content;
+        }
+        String pattern = "<pre>[\\s\r\n]*<code\\s*(class=\"language-(\\w+)\")?>(((?!</pre>).)*)</code>[\\s\r\n]*</pre>";
+        Pattern compile = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher matcher = compile.matcher(content);
+        while (matcher.find()) {
+            String language = matcher.group(2);
+            if (StringUtils.isEmpty(language)) {
+                language = "java";
+            }
+            content = content.replace(matcher.group(), String.format("\r\n```%s\r\n%s\r\n```\r\n", language, matcher.group(3)));
+        }
+
+        for (Map.Entry<String, String> e : escapeTextMap.entrySet()) {
+            content = content.replaceAll(e.getKey(), e.getValue());
+        }
+
+        return content;
+    }
+
+    @Override
+    protected String getHexoContentDecode(String content) {
+        if (StringUtils.isEmpty(content)) {
+            return content;
+        }
+
+        String pattern = "\r\n```(\\w+)\r\n(((?!```).)*)\r\n```\r\n";
+        Pattern compile = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher matcher = compile.matcher(content);
+        while (matcher.find()) {
+            content = content.replace(matcher.group(), String.format("<pre><code class=\"language-%s\">%s</code></pre>",
+                    matcher.group(1), matcher.group(2)));
+        }
+        return content;
     }
 
     private List<String> findAllLabels(List<String> hexoContentLines, String label) {

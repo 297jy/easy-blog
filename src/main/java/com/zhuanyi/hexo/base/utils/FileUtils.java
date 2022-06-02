@@ -1,10 +1,16 @@
 package com.zhuanyi.hexo.base.utils;
 
+
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class FileUtils {
@@ -93,7 +99,41 @@ public class FileUtils {
         return oldFile.renameTo(newFile);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        //String html = StringUtils.join(readAllLinesFromFile("C:\\Users\\Administrator\\Desktop\\myblog\\source\\_posts\\4.md"), "\r\n");
+        String html = "  <pre><code>dsf\r\n</code></pre> ";
+        //String pattern = "<pre><code\\s+class=\"language-(\\w+)\">.*</code></pre>";
+        String pattern = "<pre>[\\s\r\n]*<code\\s*(class=\"language-(\\w+)\")?>(((?!</pre>).)*)</code>[\\s\r\n]*</pre>";
+        Pattern compile = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher matcher = compile.matcher(html);
+        while (matcher.find()) {
+            String language = matcher.group(2);
+            if (StringUtils.isEmpty(language)){
+                language = "java";
+            }
+            html = html.replace(matcher.group(), String.format("\r\n```%s\r\n%s\r\n```\r\n", language, matcher.group(3)));
+            System.out.println(html);
+            break;
+        }
+        pattern = "\r\n```(\\w+)\r\n(((?!```).)*)\r\n```\r\n";
+        compile = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        matcher = compile.matcher(html);
+        while (matcher.find()) {
+            System.out.println(matcher.group(1));
+            System.out.println(matcher.group(2));
+            html = html.replace(matcher.group(), String.format("<pre><code class=\"language-%s\">%s</code></pre>", matcher.group(1), matcher.group(2)));
+            System.out.println(html);
+            break;
+        }
+        //System.out.println(targetList);
+    }
 
+    private static void dfs(Element element) {
+        Elements es = element.getElementsByAttributeValue("class", "language-java");
+
+    }
+
+    private static String render() {
+        return null;
     }
 }

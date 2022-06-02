@@ -15,7 +15,6 @@ public class JsonUtils {
             return new JSONObject();
         }
         String configJsonStr = StringUtils.join(lines, "");
-        System.out.println(configJsonStr);
         return JSONObject.parseObject(configJsonStr);
     }
 

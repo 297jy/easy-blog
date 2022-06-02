@@ -1,6 +1,6 @@
 package com.zhuanyi.hexo.base.utils;
 
-import com.zhuanyi.hexo.base.entity.Result;
+import com.zhuanyi.hexo.common.dto.Result;
 
 public class ResultUtils {
 

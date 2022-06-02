@@ -5,7 +5,7 @@ import com.zhuanyi.hexo.admin.obj.form.ArticleForm;
 import com.zhuanyi.hexo.admin.obj.vo.ArticleListVO;
 import com.zhuanyi.hexo.admin.obj.vo.ArticleVO;
 import com.zhuanyi.hexo.admin.service.ArticleService;
-import com.zhuanyi.hexo.base.entity.Result;
+import com.zhuanyi.hexo.common.dto.Result;
 import com.zhuanyi.hexo.base.utils.ResultUtils;
 import org.springframework.web.bind.annotation.*;
 

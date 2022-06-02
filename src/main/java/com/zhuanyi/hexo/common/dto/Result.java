@@ -1,4 +1,4 @@
-package com.zhuanyi.hexo.base.entity;
+package com.zhuanyi.hexo.common.dto;
 
 import lombok.Getter;
 
@@ -10,43 +10,43 @@ import lombok.Getter;
  * @since 2018/12/6
  */
 @Getter
-public class Result {
+public class Result<T> {
     private int code;
     private String message;
-    private Object data;
+    private T data;
 
-    private Result setResult(int code, String message, Object data) {
+    private Result<T> setResult(int code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
         return this;
     }
 
-    public Result success() {
-        return setResult(20000, "Success", null);
+    public Result<T> success() {
+        return setResult(200, "Success", null);
     }
 
-    public Result success(Object data) {
+    public Result<T> success(T data) {
         return setResult(20000, "Success", data);
     }
 
-    public Result fail(Object data, String message) {
+    public Result<T> fail(T data, String message) {
         return setResult(400, message, data);
     }
 
-    public Result fail(String message) {
+    public Result<T> fail(String message) {
         return setResult(400, message, null);
     }
 
-    public Result fail() {
+    public Result<T> fail() {
         return setResult(400, "", null);
     }
 
-    public Result fail(Object data, String message, int code) {
+    public Result<T> fail(T data, String message, int code) {
         return setResult(code, message, data);
     }
 
-    public Result fail(String message, int code) {
+    public Result<T> fail(String message, int code) {
         return setResult(code, message, null);
     }
 }

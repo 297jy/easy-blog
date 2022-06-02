@@ -116,6 +116,10 @@ public abstract class AbstractHexoFileManageImpl implements HexoFileManage {
 
     public abstract List<String> getHexoContent(String content);
 
+    protected abstract String getHexoContentEncode(String content);
+
+    protected abstract String getHexoContentDecode(String content);
+
     public List<Article> readAllArticlesFromPath(String path) {
         List<Article> articles = new ArrayList<>();
         List<String> titles = FileUtils.getFileNames(path);
@@ -144,7 +148,7 @@ public abstract class AbstractHexoFileManageImpl implements HexoFileManage {
         hexoFileLines.addAll(getHexoKeyWords(article.getKeyWords()));
         hexoFileLines.addAll(getHexoDate(article.getPublishTime()));
         hexoFileLines.add("---");
-        hexoFileLines.addAll(getHexoContent(article.getContent()));
+        hexoFileLines.addAll(getHexoContent(getHexoContentEncode(article.getContent())));
 
         String hexoFileContent = StringUtils.join(hexoFileLines, "\r\n");
         return FileUtils.writeContentToFile(path, hexoFileContent);
@@ -167,7 +171,7 @@ public abstract class AbstractHexoFileManageImpl implements HexoFileManage {
         article.setAuthor(getArticleAuthor(lines));
         article.setTitle(getArticleTitle(lines));
         article.setCategories(getArticleCategories(lines));
-        article.setContent(getArticleContent(lines));
+        article.setContent(getHexoContentDecode(getArticleContent(lines)));
         article.setCover(getArticleCover(lines));
         article.setKeyWords(getArticleKeywords(lines));
         article.setTags(getArticleTags(lines));

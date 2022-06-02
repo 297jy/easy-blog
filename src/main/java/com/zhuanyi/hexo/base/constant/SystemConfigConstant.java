@@ -2,7 +2,7 @@ package com.zhuanyi.hexo.base.constant;
 
 public class SystemConfigConstant {
 
-    public static final String SYSTEM_CONFIG_PATH = "C:\\etc\\system_config";
+    public static final String SYSTEM_CONFIG_PATH = "/etc/system_config";
 
     public static final String TOKEN_PATH_KEY = "token_path";
 

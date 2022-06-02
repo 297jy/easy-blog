@@ -7,7 +7,7 @@ import com.zhuanyi.hexo.admin.obj.vo.SystemSettingVO;
 import com.zhuanyi.hexo.admin.service.AdminService;
 import com.zhuanyi.hexo.admin.obj.vo.AdminInfoVO;
 import com.zhuanyi.hexo.auth.annotation.Auth;
-import com.zhuanyi.hexo.base.entity.Result;
+import com.zhuanyi.hexo.common.dto.Result;
 import com.zhuanyi.hexo.base.utils.ResultUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +57,6 @@ public class AdminController {
     @Auth
     @PostMapping("/update-system-setting")
     public Result updateSystemSetting(@RequestBody SystemSettingForm systemSettingForm) {
-        System.out.println(systemSettingForm.getAutoSaveArticleTimeIntervalMinutes());
         SystemSettingDTO systemSettingDTO = new SystemSettingDTO();
         BeanUtils.copyProperties(systemSettingForm, systemSettingDTO);
         boolean result = defaultAdminService.updateSystemSetting(systemSettingDTO);
