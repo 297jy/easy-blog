@@ -156,7 +156,7 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
         while (matcher.find()) {
             String language = matcher.group(2);
             if (StringUtils.isEmpty(language)) {
-                language = "java";
+                language = "code";
             }
             content = content.replace(matcher.group(), String.format("\r\n```%s\r\n%s\r\n```\r\n", language, matcher.group(3)));
         }

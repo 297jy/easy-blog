@@ -23,7 +23,7 @@ public class Result<T> {
     }
 
     public Result<T> success() {
-        return setResult(200, "Success", null);
+        return setResult(20000, "Success", null);
     }
 
     public Result<T> success(T data) {

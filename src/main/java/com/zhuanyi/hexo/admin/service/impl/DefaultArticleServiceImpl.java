@@ -6,8 +6,10 @@ import com.zhuanyi.hexo.admin.obj.pojo.Article;
 import com.zhuanyi.hexo.admin.obj.vo.ArticleListVO;
 import com.zhuanyi.hexo.admin.obj.vo.ArticleVO;
 import com.zhuanyi.hexo.admin.service.ArticleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -69,11 +71,49 @@ public class DefaultArticleServiceImpl implements ArticleService {
     public boolean update(ArticleDTO articleDTO) {
         Article article = new Article();
         BeanUtils.copyProperties(articleDTO, article);
+        fillArticleInfo(article);
         if (defaultArticleDao.updateArticle(article)) {
             defaultArticleDao.deleteTmpArticleById(article.getId());
             return true;
         }
         return false;
+    }
+
+    private void fillArticleInfo(Article article) {
+        Article oldArticle = defaultArticleDao.findArticleById(article.getId());
+        if (oldArticle == null) {
+            return;
+        }
+        if (CollectionUtils.isEmpty(article.getTags())) {
+            article.setTags(oldArticle.getTags());
+        }
+        if (CollectionUtils.isEmpty(article.getCategories())) {
+            article.setCategories(oldArticle.getCategories());
+        }
+        if (StringUtils.isEmpty(article.getContent())) {
+            article.setContent(oldArticle.getContent());
+        }
+        if (StringUtils.isEmpty(article.getCover())) {
+            article.setCover(oldArticle.getCover());
+        }
+        if (StringUtils.isEmpty(article.getPublishTime())) {
+            article.setPublishTime(oldArticle.getPublishTime());
+        }
+        if (StringUtils.isEmpty(article.getKeyWords())) {
+            article.setKeyWords(oldArticle.getKeyWords());
+        }
+        if (StringUtils.isEmpty(article.getTitle())) {
+            article.setTitle(oldArticle.getTitle());
+        }
+        if (StringUtils.isEmpty(article.getDescribe())) {
+            article.setDescribe(oldArticle.getDescribe());
+        }
+        if (StringUtils.isEmpty(article.getStatus())) {
+            article.setStatus(oldArticle.getStatus());
+        }
+        if (StringUtils.isEmpty(article.getAuthor())) {
+            article.setAuthor(oldArticle.getAuthor());
+        }
     }
 
     @Override

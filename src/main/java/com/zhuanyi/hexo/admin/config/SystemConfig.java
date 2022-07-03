@@ -5,6 +5,7 @@ import com.zhuanyi.hexo.base.constant.SystemConfigConstant;
 import com.zhuanyi.hexo.base.utils.JsonUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,9 @@ import javax.annotation.PostConstruct;
 @Data
 @Slf4j
 public class SystemConfig {
+
+    @Value("${systemConfigPath}")
+    private String systemConfigPath = "";
 
     private String username;
 
@@ -40,7 +44,8 @@ public class SystemConfig {
 
     @PostConstruct
     private void init() {
-        JSONObject configJsonObject = JsonUtils.readJsonObjectFromFile(SystemConfigConstant.SYSTEM_CONFIG_PATH);
+        System.out.println(systemConfigPath);
+        JSONObject configJsonObject = JsonUtils.readJsonObjectFromFile(systemConfigPath);
         username = configJsonObject.getString(SystemConfigConstant.USERNAME_KEY);
         password = configJsonObject.getString(SystemConfigConstant.PASSWORD_KEY);
         tokenPath = configJsonObject.getString(SystemConfigConstant.TOKEN_PATH_KEY);

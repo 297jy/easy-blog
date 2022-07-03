@@ -1,4 +1,4 @@
 server:
-    port:  8009
+  port: 8009
 logging:
-    config:  classpath:logback.xml
+  config: classpath:logback.xml
