@@ -15,7 +15,7 @@ public class SystemConfigConstant {
     //过期时间，以秒为单位
     public static final String TOKEN_EXPIRE_SECONDS_KEY = "token_expire_seconds";
 
-    public static final String AUTO_SAVE_ARTICLE_TIME_INTERVAL_MINUTES_KEY = "auto_save_article_time_interval_minutes";
+    public static final String AUTO_SAVE_ARTICLE_TIME_INTERVAL_SECONDS_KEY = "auto_save_article_time_interval_seconds";
 
     public static final String AVATAR_KEY = "avatar";
 

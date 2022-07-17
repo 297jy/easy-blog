@@ -24,6 +24,7 @@ public class SystemSettingDaoImpl implements SystemSettingDao {
 
     @Override
     public boolean updateSystemSetting(SystemSettingDTO systemSettingDTO) {
+        System.out.println(JSONObject.toJSONString(systemSettingDTO));
         JSONObject data = JSONObject.parseObject(JSONObject.toJSONString(systemSettingDTO));
         if(JsonUtils.writeJsonObjectToFile(systemConfig.getSystemConfigPath(), data)){
             BeanUtils.copyProperties(systemSettingDTO, systemConfig);

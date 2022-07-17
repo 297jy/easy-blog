@@ -15,7 +15,7 @@ public class SystemSettingVO {
 
     private Long tokenExpireSeconds;
 
-    private Long autoSaveArticleTimeIntervalMinutes;
+    private Long autoSaveArticleTimeIntervalSeconds;
 
     private String avatar;
 

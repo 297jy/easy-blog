@@ -64,7 +64,10 @@ public class DefaultArticleServiceImpl implements ArticleService {
     public boolean create(ArticleDTO articleDTO) {
         Article article = new Article();
         BeanUtils.copyProperties(articleDTO, article);
-        return defaultArticleDao.saveArticle(article);
+        if (defaultArticleDao.saveArticle(article)) {
+            return defaultArticleDao.deleteTmpArticleById(article.getId());
+        }
+        return false;
     }
 
     @Override
@@ -73,8 +76,7 @@ public class DefaultArticleServiceImpl implements ArticleService {
         BeanUtils.copyProperties(articleDTO, article);
         fillArticleInfo(article);
         if (defaultArticleDao.updateArticle(article)) {
-            defaultArticleDao.deleteTmpArticleById(article.getId());
-            return true;
+            return defaultArticleDao.deleteTmpArticleById(article.getId());
         }
         return false;
     }
@@ -96,9 +98,6 @@ public class DefaultArticleServiceImpl implements ArticleService {
         if (StringUtils.isEmpty(article.getCover())) {
             article.setCover(oldArticle.getCover());
         }
-        if (StringUtils.isEmpty(article.getPublishTime())) {
-            article.setPublishTime(oldArticle.getPublishTime());
-        }
         if (StringUtils.isEmpty(article.getKeyWords())) {
             article.setKeyWords(oldArticle.getKeyWords());
         }
@@ -114,6 +113,7 @@ public class DefaultArticleServiceImpl implements ArticleService {
         if (StringUtils.isEmpty(article.getAuthor())) {
             article.setAuthor(oldArticle.getAuthor());
         }
+        article.setPublishTime(oldArticle.getPublishTime());
     }
 
     @Override

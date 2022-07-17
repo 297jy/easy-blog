@@ -21,8 +21,8 @@ public class SystemSettingDTO {
     @JSONField(name = "token_expire_seconds")
     private Long tokenExpireSeconds;
 
-    @JSONField(name = "auto_save_article_time_interval_minutes")
-    private Long autoSaveArticleTimeIntervalMinutes;
+    @JSONField(name = "auto_save_article_time_interval_seconds")
+    private Long autoSaveArticleTimeIntervalSeconds;
 
     private String avatar;
 

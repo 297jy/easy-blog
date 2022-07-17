@@ -18,8 +18,8 @@ public class ArticleController {
     @Resource
     private ArticleService defaultArticleService;
 
-    @PostMapping("/create")
-    public Result create(@RequestBody ArticleForm articleForm) {
+    @PostMapping("/save")
+    public Result save(@RequestBody ArticleForm articleForm) {
         boolean result;
         if (articleForm.getId() == null) {
             result = defaultArticleService.create(new ArticleDTO(articleForm));
@@ -31,6 +31,9 @@ public class ArticleController {
 
     @PostMapping("/tmp-save")
     public Result tmpSave(@RequestBody ArticleForm articleForm) {
+        if (articleForm.getId() == null){
+            return ResultUtils.error();
+        }
         ArticleDTO articleDTO = new ArticleDTO(articleForm);
         boolean result = defaultArticleService.tmpSave(articleDTO);
         Long id = articleDTO.getId();

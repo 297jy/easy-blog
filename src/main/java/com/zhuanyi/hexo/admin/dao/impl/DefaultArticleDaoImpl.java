@@ -43,10 +43,6 @@ public class DefaultArticleDaoImpl implements ArticleDao {
 
     @Override
     public boolean tmpSaveArticle(Article article) {
-        if (article.getId() == null) {
-            Long nextId = defaultHexoFileManage.getNewArticleId();
-            article.setId(nextId);
-        }
         return defaultHexoFileManage.tmpSaveArticle(article);
     }
 

@@ -28,7 +28,7 @@ public class SystemConfig {
 
     private Long tokenExpireSeconds;
 
-    private Long autoSaveArticleTimeIntervalMinutes;
+    private Long autoSaveArticleTimeIntervalSeconds;
 
     private String avatar;
 
@@ -44,14 +44,13 @@ public class SystemConfig {
 
     @PostConstruct
     private void init() {
-        System.out.println(systemConfigPath);
         JSONObject configJsonObject = JsonUtils.readJsonObjectFromFile(systemConfigPath);
         username = configJsonObject.getString(SystemConfigConstant.USERNAME_KEY);
         password = configJsonObject.getString(SystemConfigConstant.PASSWORD_KEY);
         tokenPath = configJsonObject.getString(SystemConfigConstant.TOKEN_PATH_KEY);
         authSecret = configJsonObject.getString(SystemConfigConstant.AUTH_SECRET_KEY);
         tokenExpireSeconds = configJsonObject.getLong(SystemConfigConstant.TOKEN_EXPIRE_SECONDS_KEY);
-        autoSaveArticleTimeIntervalMinutes = configJsonObject.getLong(SystemConfigConstant.AUTO_SAVE_ARTICLE_TIME_INTERVAL_MINUTES_KEY);
+        autoSaveArticleTimeIntervalSeconds = configJsonObject.getLong(SystemConfigConstant.AUTO_SAVE_ARTICLE_TIME_INTERVAL_SECONDS_KEY);
         avatar = configJsonObject.getString(SystemConfigConstant.AVATAR_KEY);
         introduction = configJsonObject.getString(SystemConfigConstant.INTRODUCTION_KEY);
         hexoSourcePath = configJsonObject.getString(SystemConfigConstant.HEXO_SOURCE_PATH_KEY);
