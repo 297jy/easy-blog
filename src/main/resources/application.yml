@@ -1,4 +1,9 @@
 server:
   port: 8009
+  servlet:
+      encoding:
+        charset: utf-8
+        force: true
+        enabled: true
 logging:
   config: classpath:logback.xml
