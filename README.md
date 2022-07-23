@@ -15,6 +15,14 @@ Hexo是一款快速、简洁且高效的博客框架，支持Markdown语法，�
 - 提供富文本编辑框，用户不需要学习Markdown语法，就能写一篇完整的文章
 - 提供docker镜像，这样用户只需要在私有的服务器上搭建好docker运行环境，就能够很方便的在服务器上部署属于自己的博客网站
 ## 演示效果
+- 博客主页面
+![博客主页面.png](https://s2.loli.net/2022/07/23/4ixDSRsYevLO59a.png)
+- 文章浏览页面
+![文章浏览页面.png](https://s2.loli.net/2022/07/23/nkC5Gs7mw3eLHKS.png)
+- 文章管理页面
+![文章管理页面.png](https://s2.loli.net/2022/07/23/ae56h7mkdJ83IqN.png)
+- 文章编辑页面
+![文章编辑页面.png](https://s2.loli.net/2022/07/23/DfRVdqkmtFvEJs4.png)
 ## 命令
 - 启动容器命令:  
 sudo docker run --privileged=true -d -v /myblog/source/_posts:/myblog/source/_posts -v /myblog/bak:/myblog/bak  -v /myblog/tmp:/myblog/tmp   -p 80:80 -p 8000:8000 -p 8009:8009 zhuanyi/myblog:1.0
