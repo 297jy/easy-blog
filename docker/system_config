@@ -1,0 +1,22 @@
+{
+    "auto_save_article_time_interval_minute":13,
+    "token_path":"/etc/auth_secret",
+    "hexo_source_path":"/myblog/source/_posts",
+    "auth_secret":"test",
+    "token_expire_seconds":100000000,
+    "avatar":"https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+    "auto_save_article_time_interval_minutes":1,
+    "hexoRemoveSourcePath":"/myblog/bak",
+    "hexoTmpSourcePath":"/myblog/tmp",
+    "password":"111111",
+    "tokenPath":"/etc/auth_secret",
+    "authSecret":"test",
+    "tokenExpireSeconds":100000000,
+    "hexo_tmp_source_path":"/myblog/tmp",
+    "autoSaveArticleTimeIntervalMinutes":12,
+    "auto_save_article_time_interval_seconds":15,
+    "introduction":"I am a super administrator",
+    "hexo_remove_source_path":"/myblog/bak",
+    "username":"admin",
+    "hexoSourcePath":"/myblog/source/_posts"
+}
