@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +48,7 @@ public class FileUtils {
             fileWriter.write(content);
             return true;
         } catch (Throwable e) {
-            log.error("writeContentToFile失败，{%s}", e);
+            log.error("writeContentToFile失败，{}", e.getMessage());
             return false;
         } finally {
             if (fileWriter != null) {
@@ -108,7 +109,7 @@ public class FileUtils {
         Matcher matcher = compile.matcher(html);
         while (matcher.find()) {
             String language = matcher.group(2);
-            if (StringUtils.isEmpty(language)){
+            if (StringUtils.isEmpty(language)) {
                 language = "java";
             }
             html = html.replace(matcher.group(), String.format("\r\n```%s\r\n%s\r\n```\r\n", language, matcher.group(3)));

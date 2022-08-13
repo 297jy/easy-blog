@@ -1,6 +1,7 @@
 package com.zhuanyi.hexo.base.hexo.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -11,14 +12,6 @@ import java.util.regex.Pattern;
 
 @Component("defaultHexoFileManage")
 public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
-
-    private static final Map<String, String> escapeTextMap = new HashMap<>();
-
-    static {
-        escapeTextMap.put("&gt;", ">");
-        escapeTextMap.put("&lt;", "<");
-        escapeTextMap.put("&nbsp;", " ");
-    }
 
     @Override
     public String getArticleAuthor(List<String> hexoContentLines) {
@@ -90,7 +83,7 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
         int index = hexoContentLines.lastIndexOf("---");
         if (index != -1) {
             int startIndex = Math.min(index + 1, hexoContentLines.size());
-            return StringUtils.join(hexoContentLines.subList(startIndex, hexoContentLines.size()), "\r\n").trim();
+            return StringUtils.join(hexoContentLines.subList(startIndex, hexoContentLines.size()), "\r\n");
         }
         return "";
     }
@@ -158,13 +151,9 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
             if (StringUtils.isEmpty(language)) {
                 language = "code";
             }
-            content = content.replace(matcher.group(), String.format("\r\n```%s\r\n%s\r\n```\r\n", language, matcher.group(3)));
+            content = content.replace(matcher.group(), String.format("\r\n```%s\r\n%s\r\n```\r\n",
+                    language, StringEscapeUtils.unescapeHtml4(matcher.group(3))));
         }
-
-        for (Map.Entry<String, String> e : escapeTextMap.entrySet()) {
-            content = content.replaceAll(e.getKey(), e.getValue());
-        }
-
         return content;
     }
 
@@ -174,13 +163,15 @@ public class DefaultHexoFileManageImpl extends AbstractHexoFileManageImpl {
             return content;
         }
 
-        String pattern = "\r\n```(\\w+)\r\n(((?!```).)*)\r\n```\r\n";
+        String pattern = "\r\n```(\\w+)\r\n(((?!```).)+)\r\n```\r\n";
+        //String pattern = "\r\n```(\\w+)\r\n(.+)```\r\n";
         Pattern compile = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
         Matcher matcher = compile.matcher(content);
         while (matcher.find()) {
             content = content.replace(matcher.group(), String.format("<pre><code class=\"language-%s\">%s</code></pre>",
-                    matcher.group(1), matcher.group(2)));
+                    matcher.group(1), StringEscapeUtils.escapeHtml4(matcher.group(2))));
         }
+
         return content;
     }
 
